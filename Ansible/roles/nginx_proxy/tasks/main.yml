@@ -1,0 +1,37 @@
+- name: Установка Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Получение IP адреса web сервера из inventory
+  set_fact:
+    web_server_ip: "{{ hostvars['vm-web']['ansible_default_ipv4']['address'] }}"
+  when: hostvars['vm-web']['ansible_default_ipv4']['address'] is defined
+
+- name: Копирование конфигурации прокси
+  template:
+    src: proxy.conf.j2
+    dest: /etc/nginx/sites-available/proxy
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart nginx
+
+- name: Включение конфигурации прокси
+  file:
+    src: /etc/nginx/sites-available/proxy
+    dest: /etc/nginx/sites-enabled/proxy
+    state: link
+  notify: restart nginx
+
+- name: Удаление дефолтной конфигурации
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: restart nginx
+
+- name: Запуск и включение Nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
