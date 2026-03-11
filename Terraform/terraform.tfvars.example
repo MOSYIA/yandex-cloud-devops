@@ -1,0 +1,4 @@
+token          = "y0_AgAAAAA1234567890abcdefghijklmn"
+cloud_id       = "b1g1234567890abcdef"
+folder_id      = "b1g0987654321abcdef"
+default_zone   = "ru-central1-a"
