@@ -1,0 +1,17 @@
+- name: Настройка всех серверов (базовые пакеты)
+  hosts: all
+  become: yes
+  roles:
+    - base
+
+- name: Настройка отдающего Nginx (web сервер)
+  hosts: web
+  become: yes
+  roles:
+    - nginx_web
+
+- name: Настройка проксирующего Nginx (прокси)
+  hosts: proxy
+  become: yes
+  roles:
+    - nginx_proxy
