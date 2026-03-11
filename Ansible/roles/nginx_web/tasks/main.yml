@@ -1,0 +1,27 @@
+- name: Установка Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Создание директории для сайта
+  file:
+    path: /var/www/html
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Копирование index.html из шаблона
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    owner: www-data
+    group: www-data
+    mode: '0644'
+  notify: restart nginx
+
+- name: Запуск и включение Nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
