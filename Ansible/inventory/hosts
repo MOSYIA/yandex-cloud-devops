@@ -1,0 +1,13 @@
+[web]
+vm-web ansible_host=51.250.10.100 ansible_user=ubuntu
+
+[proxy]
+vm-proxy ansible_host=51.250.10.101 ansible_user=ubuntu
+
+[db]
+vm-db ansible_host=51.250.20.100 ansible_user=ubuntu
+
+[all:children]
+web
+proxy
+db
