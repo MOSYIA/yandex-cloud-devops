@@ -1,0 +1,27 @@
+- name: Обновление кэша пакетов
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Установка стандартных пакетов
+  apt:
+    name:
+      - net-tools
+      - dnsutils
+      - wget
+      - curl
+      - mc
+      - rsync
+      - htop
+      - git
+    state: present
+
+- name: Изменение hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Добавление hostname в /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.1.1 {{ inventory_hostname }}"
+    create: yes
